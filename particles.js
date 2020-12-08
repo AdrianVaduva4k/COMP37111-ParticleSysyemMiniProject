@@ -21,7 +21,7 @@ function preload(){
   loadJSON(url,gotWeather);
   wind = createVector();
 
-  img = loadImage("smoke.png");
+  img = loadImage("smoke-lowres1.png");
 }
 //SETUP
 function setup() {
