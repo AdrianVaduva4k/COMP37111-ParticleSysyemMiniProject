@@ -6,6 +6,14 @@ let img;
 
 let renderMode;
 
+let lifetaken;
+
+//Slider
+let valueSlider;
+let colorSlider;
+let renderModeSlider;
+let lifespanSlider;
+
 //PRELOAD
 function preload(){
   // Request the data from metaweather.com
@@ -19,19 +27,40 @@ function preload(){
 function setup() {
   createCanvas(1280, 720, P2D);
   system = new ParticleSystem(createVector(width / 2, 300)); 
-  renderMode = 3;
+  renderMode = 1;
+
+  //Sliders
+  valueSlider = createSlider(1, 100, 30);
+  valueSlider.position(10,100);
+  valueSlider.style('width', '80px');
+
+  lifespanSlider = createSlider(1, 10, 5);
+  lifespanSlider.position(10,120);
+  lifespanSlider.style('width', '80px');
+  
+
+
 }
 
 function draw() {
   background(0);
   system.addParticle();
   system.run();
+
+  fill(0);
+  text("Custom wind speed", 10, 90);
+
+  let valueSlider_val = valueSlider.value();
+  if  (valueSlider_val != 30)
+    wind.setMag(valueSlider_val*0.002);
+
+  lifetaken = lifespanSlider.value();
 }
 
 // PARTICLE CLASS
 let Particle = function(position) {
   this.acceleration = wind;
-  this.velocity = createVector(random(-0.5, 0.5), random(-0.5, 0));
+  this.velocity = createVector(random(-0.5, 1), random(-0.5, 0));
   this.position = position.copy();
   this.lifespan = 255;
 };
@@ -45,7 +74,7 @@ Particle.prototype.run = function() {
 Particle.prototype.update = function(){
   this.velocity.add(this.acceleration);
   this.position.add(this.velocity);
-  this.lifespan -= 5;
+  this.lifespan -= lifetaken;
 };
 
 // Method to display
@@ -114,5 +143,5 @@ function gotWeather(weather) {
 
   
   // Make a vector
-  wind = p5.Vector.fromAngle(angle, 30*0.002);
+  wind = p5.Vector.fromAngle(angle, windmag*0.002);
 };
