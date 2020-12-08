@@ -2,17 +2,24 @@ let system;
 // A wind direction vector
 let wind;
 
+let img;
+
+let renderMode;
+
 //PRELOAD
 function preload(){
   // Request the data from metaweather.com
   let url = 'https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/2459115/';
   loadJSON(url,gotWeather);
   wind = createVector();
+
+  img = loadImage("smoke.png");
 }
 //SETUP
 function setup() {
-  createCanvas(1280, 720);
-  system = new ParticleSystem(createVector(width / 2, 300));
+  createCanvas(1280, 720, P2D);
+  system = new ParticleSystem(createVector(width / 2, 300)); 
+  renderMode = 3;
 }
 
 function draw() {
@@ -38,17 +45,29 @@ Particle.prototype.run = function() {
 Particle.prototype.update = function(){
   this.velocity.add(this.acceleration);
   this.position.add(this.velocity);
-  this.lifespan -= 2;
+  this.lifespan -= 5;
 };
 
 // Method to display
 Particle.prototype.display = function() {
-  // stroke(200, this.lifespan);
-  // strokeWeight(2);
-  // fill(127, this.lifespan);
-  fill(255,this.lifespan);
-  noStroke();
-  ellipse(this.position.x, this.position.y, 10, 10);
+  if(renderMode == 1){
+    //RENDER 1
+    stroke(200, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    ellipse(this.position.x, this.position.y, 12, 12);
+  } else if (renderMode == 2){
+    //RENDER 2
+    fill(255,this.lifespan);
+    noStroke();
+    ellipse(this.position.x, this.position.y, 5, 5);
+  } else{
+    //RENDER 3
+    imageMode(CENTER);
+    tint(255,this.lifespan);
+    image(img,this.position.x, this.position.y, 30, 30);
+  }
+
 };
 
 // Is the particle still useful?
@@ -95,5 +114,5 @@ function gotWeather(weather) {
 
   
   // Make a vector
-  wind = p5.Vector.fromAngle(angle, windmag*0.0015);
+  wind = p5.Vector.fromAngle(angle, 30*0.002);
 };
