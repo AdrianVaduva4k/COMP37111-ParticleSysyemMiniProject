@@ -8,7 +8,7 @@ let renderMode;
 
 let lifetaken;
 
-//Slider
+//Sliders
 let valueSlider;
 let colorSlider;
 let renderModeSlider;
@@ -34,11 +34,15 @@ function setup() {
   valueSlider.position(10,100);
   valueSlider.style('width', '80px');
 
+
   lifespanSlider = createSlider(1, 10, 5);
   lifespanSlider.position(10,120);
   lifespanSlider.style('width', '80px');
   
-
+  renderModeSlider = createSlider(1, 3, 1);
+  renderModeSlider.position(10,140);
+  renderModeSlider.style('width', '80px');
+  
 
 }
 
@@ -47,14 +51,12 @@ function draw() {
   system.addParticle();
   system.run();
 
-  fill(0);
-  text("Custom wind speed", 10, 90);
-
   let valueSlider_val = valueSlider.value();
   if  (valueSlider_val != 30)
     wind.setMag(valueSlider_val*0.002);
 
   lifetaken = lifespanSlider.value();
+  renderMode = renderModeSlider.value();
 }
 
 // PARTICLE CLASS
