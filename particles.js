@@ -8,16 +8,20 @@ let renderMode;
 
 let lifetaken;
 
+let angle;
+let windmag;
+
 //Sliders
 let valueSlider;
 let colorSlider;
 let renderModeSlider;
 let lifespanSlider;
+let angleSlider;
 
 //PRELOAD
 function preload(){
   // Request the data from metaweather.com
-  let url = 'https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/2459115/';
+  let url = 'https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/28218/';
   loadJSON(url,gotWeather);
   wind = createVector();
 
@@ -35,7 +39,7 @@ function setup() {
   valueSlider.style('width', '80px');
 
 
-  lifespanSlider = createSlider(1, 10, 5);
+  lifespanSlider = createSlider(1, 10, 2);
   lifespanSlider.position(10,120);
   lifespanSlider.style('width', '80px');
   
@@ -43,7 +47,9 @@ function setup() {
   renderModeSlider.position(10,140);
   renderModeSlider.style('width', '80px');
   
-
+  angleSlider = createSlider(0, 360, 0);
+  angleSlider.position(10,160);
+  angleSlider.style('width', '80px');
 }
 
 function draw() {
@@ -52,9 +58,14 @@ function draw() {
   system.run();
 
   let valueSlider_val = valueSlider.value();
-  if  (valueSlider_val != 30)
+  if  (valueSlider_val != 30){
     wind.setMag(valueSlider_val*0.002);
+    windmag = valueSlider_val;
+  }
 
+  if  (angleSlider.value() != 0)
+    wind = p5.Vector.fromAngle(angleSlider.value()*Math.PI/180, windmag*0.002);
+    console.log(angleSlider.value());
   lifetaken = lifespanSlider.value();
   renderMode = renderModeSlider.value();
 }
@@ -62,7 +73,7 @@ function draw() {
 // PARTICLE CLASS
 let Particle = function(position) {
   this.acceleration = wind;
-  this.velocity = createVector(random(-0.5, 1), random(-0.5, 0));
+  this.velocity = p5.Vector.random2D().div(Math.floor(Math.random() * 9 + 2));
   this.position = position.copy();
   this.lifespan = 255;
 };
@@ -129,21 +140,24 @@ ParticleSystem.prototype.run = function() {
 function gotWeather(weather) {
   let weather_today = weather.consolidated_weather[0];
   // Get the angle (convert to radians)
-  let angle = radians(Number(weather_today.wind_direction));
+  angle = radians(Number(weather_today.wind_direction));
   // Get the wind speed
-  let windmag = Number(weather_today.wind_speed);
+  windmag = Number(weather_today.wind_speed);
   // Get weather condition
   let weathercondition = weather_today.weather_state_name;
+  // Get wind direction
+  let winddirection = weather_today.wind_direction_compass;
   // Get location
   let location = weather.title;
   
   // Display as HTML elements
+  let locationDiv = createDiv("LOCATION: " + location);
   let temperatureDiv = createDiv(floor(weather_today.the_temp) + '&deg;C');
   let windDiv = createDiv("WIND " + windmag + " <small>MPH</small>");
-  let locationDiv = createDiv("LOCATION: " + location);
+  let winddirectionDiv = createDiv("WIND DIRECTION: " + winddirection);
   let weatherconditionDiv = createDiv("WEATHER CONDITION: " + weathercondition)
-
+  
   
   // Make a vector
-  wind = p5.Vector.fromAngle(angle, windmag*0.002);
+  wind = p5.Vector.fromAngle(angle*Math.PI/180, windmag*0.003);
 };
