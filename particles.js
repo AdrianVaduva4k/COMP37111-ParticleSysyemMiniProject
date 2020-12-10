@@ -60,6 +60,7 @@ function draw() {
   background(0);
   system.addParticle();
   system.run();
+  console.log(frameRate());
 
   let valueSlider_val = valueSlider.value();
   if  (valueSlider_val != 30){
@@ -69,7 +70,7 @@ function draw() {
 
   if  (angleSlider.value() != 0)
     wind = p5.Vector.fromAngle(angleSlider.value()*Math.PI/180, windmag*0.002);
-    console.log(angleSlider.value());
+    //console.log(angleSlider.value());
   lifetaken = lifespanSlider.value();
   renderMode = renderModeSlider.value();
 }
