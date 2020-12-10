@@ -1,3 +1,7 @@
+// Using P%js library, I created a simple wind simulation
+// I got help from the documenation and examples from p5js.org
+// By: Adrian Vaduva
+
 let system;
 // A wind direction vector
 let wind;
@@ -159,5 +163,6 @@ function gotWeather(weather) {
   
   
   // Make a vector
-  wind = p5.Vector.fromAngle(angle*Math.PI/180, windmag*0.003);
+  wind = p5.Vector.fromAngle(angle*Math.PI/180, windmag*0.002);
+  console.log(angle*Math.PI/180);
 };
