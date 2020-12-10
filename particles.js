@@ -79,7 +79,7 @@ function draw() {
 
   fill(255);
   stroke(0);
-  text("Particlee type", 110, 64);
+  text("Particle type", 110, 64);
 
   fill(255);
   stroke(0);
