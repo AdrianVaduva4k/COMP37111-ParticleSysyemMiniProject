@@ -68,6 +68,11 @@ function draw() {
   stroke(0);
   text("FPS: " + fps.toFixed(2), 10, height - 10);
 
+  //No of particles
+  fill(255);
+  stroke(0);
+  text("Number of particles: " + numberOfParicles.toFixed(), 10, height - 30);
+
   //Text
   fill(255);
   stroke(0);
