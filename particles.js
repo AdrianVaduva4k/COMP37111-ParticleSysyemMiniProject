@@ -68,9 +68,24 @@ function draw() {
   stroke(0);
   text("FPS: " + fps.toFixed(2), 10, height - 10);
 
-  // fill(255);
-  // stroke(0);
-  // text("Wind Speed", 110, 10);
+  //Text
+  fill(255);
+  stroke(0);
+  text("Wind Speed", 110, 23);
+
+  fill(255);
+  stroke(0);
+  text("Inverse of lifespan", 110, 44);
+
+  fill(255);
+  stroke(0);
+  text("Particlee type", 110, 64);
+
+  fill(255);
+  stroke(0);
+  text("Angle", 110, 84);
+
+
   console.log("Framerate: " + frameRate() + " Number of particles: " + numberOfParicles);
 
   let valueSlider_val = valueSlider.value();
