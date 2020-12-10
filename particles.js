@@ -3,6 +3,7 @@
 // By: Adrian Vaduva
 
 let system;
+let numberOfParicles;
 // A wind direction vector
 let wind;
 
@@ -60,7 +61,17 @@ function draw() {
   background(0);
   system.addParticle();
   system.run();
-  console.log(frameRate());
+
+  //FPS counter
+  let fps = frameRate();
+  fill(255);
+  stroke(0);
+  text("FPS: " + fps.toFixed(2), 10, height - 10);
+
+  // fill(255);
+  // stroke(0);
+  // text("Wind Speed", 110, 10);
+  console.log("Framerate: " + frameRate() + " Number of particles: " + numberOfParicles);
 
   let valueSlider_val = valueSlider.value();
   if  (valueSlider_val != 30){
@@ -68,8 +79,10 @@ function draw() {
     windmag = valueSlider_val;
   }
 
-  if  (angleSlider.value() != 0)
+  let angleSlider_val = angleSlider.value();
+  if  (angleSlider_val != 0){
     wind = p5.Vector.fromAngle(angleSlider.value()*Math.PI/180, windmag*0.002);
+  }
     //console.log(angleSlider.value());
   lifetaken = lifespanSlider.value();
   renderMode = renderModeSlider.value();
@@ -139,19 +152,20 @@ ParticleSystem.prototype.run = function() {
     if (p.isDead()) {
       this.particles.splice(i, 1);
     }
+    numberOfParicles = this.particles.length;
   }
 };
 
 function gotWeather(weather) {
   let weather_today = weather.consolidated_weather[0];
   // Get the angle (convert to radians)
-  angle = radians(Number(weather_today.wind_direction));
+  angle = radians(Number(weather_today.wind_direction) - 90); //-90 to set the North as degree 0
   // Get the wind speed
   windmag = Number(weather_today.wind_speed);
   // Get weather condition
   let weathercondition = weather_today.weather_state_name;
   // Get wind direction
-  let winddirection = weather_today.wind_direction_compass;
+  let winddirection = weather_today.wind_direction;
   // Get location
   let location = weather.title;
   
@@ -159,11 +173,11 @@ function gotWeather(weather) {
   let locationDiv = createDiv("LOCATION: " + location);
   let temperatureDiv = createDiv(floor(weather_today.the_temp) + '&deg;C');
   let windDiv = createDiv("WIND " + windmag + " <small>MPH</small>");
-  let winddirectionDiv = createDiv("WIND DIRECTION: " + winddirection);
+  let winddirectionDiv = createDiv("WIND DIRECTION: " + winddirection + '&deg;');
   let weatherconditionDiv = createDiv("WEATHER CONDITION: " + weathercondition)
   
   
   // Make a vector
-  wind = p5.Vector.fromAngle(angle*Math.PI/180, windmag*0.002);
-  console.log(angle*Math.PI/180);
+  wind = p5.Vector.fromAngle(angle, windmag*0.002);
+  console.log(angle);
 };
