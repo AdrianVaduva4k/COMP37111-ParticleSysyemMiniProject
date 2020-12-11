@@ -15,6 +15,7 @@ let lifetaken;
 
 let angle;
 let windmag;
+let lifespan2;
 
 //Sliders
 let valueSlider;
@@ -22,6 +23,7 @@ let colorSlider;
 let renderModeSlider;
 let lifespanSlider;
 let angleSlider;
+let lifespan2Slider;
 
 //PRELOAD
 function preload(){
@@ -55,6 +57,11 @@ function setup() {
   angleSlider = createSlider(0, 360, 0);
   angleSlider.position(10,160);
   angleSlider.style('width', '80px');
+
+  lifespan2Slider = createSlider(2, 10000, 255);
+  lifespan2Slider.position(10,180);
+  lifespan2Slider.style('width', '80px');
+
 }
 
 function draw() {
@@ -80,7 +87,7 @@ function draw() {
 
   fill(255);
   stroke(0);
-  text("Inverse of lifespan", 110, 44);
+  text("Inverse of lifespan (Frames till death)", 110, 44);
 
   fill(255);
   stroke(0);
@@ -89,6 +96,10 @@ function draw() {
   fill(255);
   stroke(0);
   text("Angle", 110, 84);
+
+  fill(255);
+  stroke(0);
+  text("Lifespan", 110, 104);
 
 
   console.log("Framerate: " + frameRate() + " Number of particles: " + numberOfParicles);
@@ -106,6 +117,7 @@ function draw() {
     //console.log(angleSlider.value());
   lifetaken = lifespanSlider.value();
   renderMode = renderModeSlider.value();
+  lifespan2 = lifespan2Slider.value();
 }
 
 // PARTICLE CLASS
@@ -113,7 +125,7 @@ let Particle = function(position) {
   this.acceleration = wind;
   this.velocity = p5.Vector.random2D().div(Math.floor(Math.random() * 9 + 2));
   this.position = position.copy();
-  this.lifespan = 255;
+  this.lifespan = lifespan2;
 };
 
 Particle.prototype.run = function() {
