@@ -58,7 +58,7 @@ function setup() {
   angleSlider.position(10,160);
   angleSlider.style('width', '80px');
 
-  lifespan2Slider = createSlider(2, 10000, 255);
+  lifespan2Slider = createSlider(2, 9999, 255);
   lifespan2Slider.position(10,180);
   lifespan2Slider.style('width', '80px');
 
@@ -87,7 +87,7 @@ function draw() {
 
   fill(255);
   stroke(0);
-  text("Inverse of lifespan (Frames till death)", 110, 44);
+  text("Inverse of lifespan (How fast a particle dies)", 110, 44);
 
   fill(255);
   stroke(0);
